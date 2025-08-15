@@ -32,6 +32,24 @@ app.post("/task", async (req, res) => {
     }
 });
 
+app.delete("/task/:id", async (req, res) => {
+    try {
+        const Taskid = req.params.id;
+
+        const taskToDelete = await TaskModel.findById(Taskid);
+
+        if (!taskToDelete) {
+            return res.status(404).send("Essa Tarefa não foi encontrada");
+        }
+
+        await TaskModel.findByIdAndDelete(Taskid);
+
+        res.status(200).send("Tarefa deletada com sucesso!");
+    } catch (error) {
+        res.status(500).send("Essa Tarefa não foi encontrada");
+    }
+});
+
 app.listen(8000, () => {
     console.log("Listening on port 8000!");
 });
