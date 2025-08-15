@@ -15,7 +15,22 @@ connectToDatabase();
 app.get("/task", async (req, res) => {
     try {
         const taskModel = await TaskModel.find({});
-        res.status(200).send(taskModel);
+        return res.status(200).send(taskModel);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.get("/task/:id", async (req, res) => {
+    try {
+        const TaskId = req.params.id;
+
+        const TaskById = await TaskModel.findById(TaskId);
+        if (!TaskById) {
+            return res.status(404).send("Essa tarefa não foi encontrada.");
+        }
+
+        res.status(200).send(TaskById);
     } catch (error) {
         res.status(500).send(error.message);
     }
