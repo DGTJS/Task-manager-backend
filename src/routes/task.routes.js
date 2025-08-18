@@ -1,5 +1,4 @@
 import express from "express";
-import TaskModel from "../models/task.models.js";
 import TaskController from "../controllers/task.controller.js";
 
 const router = express.Router();

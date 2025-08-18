@@ -1,4 +1,8 @@
 import TaskModel from "../models/task.models.js";
+import {
+    notFoundError,
+    InternalServerError,
+} from "../errors/mongodb.errors.js";
 
 export default class TaskController {
     constructor(req, res) {
@@ -10,7 +14,7 @@ export default class TaskController {
             const taskModel = await TaskModel.find({});
             this.res.status(200).send(taskModel);
         } catch (error) {
-            this.res.status(500).send(error.message);
+            InternalServerError(this.res);
         }
     }
 
@@ -20,12 +24,12 @@ export default class TaskController {
 
             const TaskById = await TaskModel.findById(TaskId);
             if (!TaskById) {
-                this.res.status(404).send("Essa tarefa não foi encontrada.");
+                return notFoundError(this.res);
             }
 
             this.res.status(200).send(TaskById);
         } catch (error) {
-            this.res.status(500).send(error.message);
+            InternalServerError(res);
         }
     }
 
@@ -36,7 +40,7 @@ export default class TaskController {
             await CreateTask.save();
             this.res.status(201).send(CreateTask);
         } catch (error) {
-            this.res.status(500).send(error.message);
+            InternalServerError(this.res);
         }
     }
     async UpdateTask() {
@@ -52,7 +56,7 @@ export default class TaskController {
 
             this.res.status(200).send(updateTask);
         } catch (error) {
-            this.res.status(500).send("Não foi possivel atualizar");
+            InternalServerError(this.res);
         }
     }
     async DeleteTask() {
@@ -62,16 +66,14 @@ export default class TaskController {
             const taskToDelete = await TaskModel.findById(Taskid);
 
             if (!taskToDelete) {
-                return this.res
-                    .status(404)
-                    .send("Essa Tarefa não foi encontrada");
+                return notFoundError(this.res);
             }
 
             await TaskModel.findByIdAndDelete(Taskid);
 
             this.res.status(200).send("Tarefa deletada com sucesso!");
         } catch (error) {
-            this.res.status(500).send("Essa Tarefa não foi encontrada");
+            InternalServerError(this.res);
         }
     }
 }

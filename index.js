@@ -1,9 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-
 import connectToDatabase from "./src/database/mongoose.database.js";
 import TaskRouter from "./src/routes/task.routes.js";
-import TaskModel from "./src/models/task.models.js";
 
 dotenv.config();
 
