@@ -11,7 +11,8 @@ app.use(express.json());
 connectToDatabase();
 
 app.use("/task", TaskRouter);
+const PORT = process.env.PORT || 8000;
 
-app.listen(8000, () => {
-    console.log("Listening on port 8000!");
+app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}!`);
 });
