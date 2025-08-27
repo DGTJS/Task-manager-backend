@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
     return new TaskController(req, res).CreateTask();
 });
 
-router.patch("/", async (req, res) => {
+router.patch("/:id", async (req, res) => {
     return new TaskController(req, res).UpdateTask();
 });
 
